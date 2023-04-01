@@ -1,0 +1,63 @@
+{
+  "name": "node-app-esbuild",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/node-app-esbuild/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/packages/node-app-esbuild",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "packages/node-app-esbuild/src/main.ts",
+        "tsConfig": "packages/node-app-esbuild/tsconfig.app.json",
+        "assets": ["packages/node-app-esbuild/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "node-app-esbuild:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "node-app-esbuild:build:development"
+        },
+        "production": {
+          "buildTarget": "node-app-esbuild:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/node-app-esbuild/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

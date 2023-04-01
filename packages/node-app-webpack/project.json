@@ -1,0 +1,50 @@
+{
+  "name": "node-app-webpack",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/node-app-webpack/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/packages/node-app-webpack",
+        "main": "packages/node-app-webpack/src/main.ts",
+        "tsConfig": "packages/node-app-webpack/tsconfig.app.json",
+        "assets": ["packages/node-app-webpack/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "packages/node-app-webpack/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "node-app-webpack:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "node-app-webpack:build:development"
+        },
+        "production": {
+          "buildTarget": "node-app-webpack:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/node-app-webpack/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}
